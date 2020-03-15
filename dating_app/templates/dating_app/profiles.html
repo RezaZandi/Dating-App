@@ -1,0 +1,20 @@
+{% extends "dating_app/base.html" %}
+
+{% block content %}
+
+<br>
+<h1>These are a list of the current profiles that have been created</h1>
+<br>
+<ul>
+	{% for profile in profiles %}
+		<li>
+			<h3>
+		  	<a href="{% url 'dating_app:profile' profile.id %}">{{ profile }}</a>
+			</h3>
+		</li>
+	{% empty %}
+		<li>No profiles have been created yet.</li>
+	{% endfor %}
+</ul>
+
+{% endblock content %}

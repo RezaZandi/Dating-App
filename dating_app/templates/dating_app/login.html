@@ -1,0 +1,28 @@
+{% extends "dating_app/base.html" %}
+{% load bootstrap4 %}
+
+
+
+
+
+{% block head %}
+	<title> Login </title>
+{% endblock %}
+
+{% block content %}
+<br><br>
+	<form method="post" action="{% url 'dating_app:login' %}" class="form">
+		{% csrf_token %}
+		{% bootstrap_form form %}
+
+		{% buttons %}
+			<button name="submit">login</button>
+		{% endbuttons %}
+		
+		<input type="hidden" name="next"
+			value="{% url 'dating_app:home' %}" />
+	</form>
+
+{% endblock content %}
+
+
