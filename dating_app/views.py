@@ -11,6 +11,8 @@ from django.contrib.auth import login, logout, authenticate
 from dating_app.forms import RegistrationForm,ProfileUpdateForm
 from .models import Profile
 
+#change just to use git
+
 # Create your views here.
 def home(request):
 
@@ -76,7 +78,7 @@ def update_account(request, profile_id):
 	#Edit an existing profile 
 	profile = get_object_or_404(Profile,id=profile_id)
 	update_form = ProfileUpdateForm(request.POST, request.FILES)
-	#check_profile_owner(profile.owner,request.user)
+	#check_profile_owner(profile.owner,request.user) (not working though)
 
 	if request.method != 'POST':
 		#Initial request; prefil form with current entry
@@ -92,7 +94,7 @@ def update_account(request, profile_id):
 	return render(request, 'dating_app/update.html', context)
 
 
-"""Checks to see if the current user is also the profile owner"""
+"""Checks to see if the current user is also the profile owner, not working though"""
 #def check_profile_owner(user):
  
     # if owner != user:
