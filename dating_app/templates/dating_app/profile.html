@@ -13,8 +13,13 @@
 	<br><br>
 	<p>About me: {{ profile.description }}</p>
 	<br>
-	<p><a href="{% url 'dating_app:update_account' user.id %}">edit profile</a></p>
 	
+	{% if user.id == profile.id %}
+		<p><a href="{% url 'dating_app:update_account' profile.id %}">edit profile</a></p>
+	{% endif %}
+	<a href="{% url 'dating_app:messages' %}">Check Messages</a
+
+
 	
 </div>
 

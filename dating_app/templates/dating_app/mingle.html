@@ -1,0 +1,35 @@
+{% extends "dating_app/base.html" %}
+
+{% load bootstrap4 %}
+
+
+{% block content %}
+<div class="tindero">
+    {% if profile %}
+        <div class="container content is-child box column is-4 is-offset-4">
+            <img src="{{ profile.photo.url  }}" width="300">
+            <p style="font-size: 25px">{{profile.username}}</p>
+            
+            <b>Bio:</b>
+            <p>{{profile.description}}</p>
+            <div class="columns has-text-centered">
+                <div class="column is-half">
+                    <a href="{% url 'dating_app:nope' profile.id %}" class="button is-danger" style="width: 100%"> Dislike </a>
+                </div>
+                <div class="column">
+                    <a href="{% url 'dating_app:nice' profile.id %}" class="button is-primary" style="width: 100%"> Like </a>
+                </div>
+            </div>
+            
+        </div>
+    {% else %}
+    	<br><br>
+        <p>Wait for more people to join!</p>
+        <p>Help us get more user. Share this link to your friends! <a href="http://localhost:8000/">http://localhost:8000/</a></p>
+  {% endif %}
+{% endblock %}
+
+
+
+
+

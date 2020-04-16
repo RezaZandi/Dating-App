@@ -1,0 +1,26 @@
+{% extends "dating_app/base.html" %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+
+
+
+<br><br>
+
+<h1>Start chatting  now!</h1>
+
+
+
+
+	<div class='container'>
+		<form method="post" action="{% url 'dating_app:instant_message' receiver.id %}" >
+			
+
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit">Register</button>
+		</form>
+	</div>
+
+{% endblock content %}

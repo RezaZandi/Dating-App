@@ -1,22 +1,36 @@
-
-
+from __future__ import unicode_literals
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
-
 from django.contrib.auth import logout
 from django.contrib.auth import login, logout, authenticate
-from dating_app.forms import RegistrationForm,ProfileUpdateForm
-from .models import Profile
+from dating_app.forms import RegistrationForm,ProfileUpdateForm, InstantMessageForm
+from .models import Profile, UserVote, InstantMessage,Conversation
+from django.db import models
+from django.db.models import Q
+from django.db.models import Max
 
-#change just to use git
+
+#What I am bringing from sample project 
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+import os
+from django.core import serializers
+import json
+from django.contrib.auth import get_user_model
+
+
+
+Profile = get_user_model()
+
 
 # Create your views here.
 def home(request):
 
-	return render(request, 'dating_app/home.html')
+	context = {'random_profiles': Profile.objects.exclude(id=request.user.id).order_by('?')[:3]}
+	return render(request, 'dating_app/home.html',context)
 
 
 def profiles(request):
@@ -34,7 +48,7 @@ def profile(request, profile_id):
 
 
 
-# Below is what i am bringing from users
+# Below is related to users
 
 
 def logout_view(request):
@@ -78,8 +92,7 @@ def update_account(request, profile_id):
 	#Edit an existing profile 
 	profile = get_object_or_404(Profile,id=profile_id)
 	update_form = ProfileUpdateForm(request.POST, request.FILES)
-	#check_profile_owner(profile.owner,request.user) (not working though)
-
+	
 	if request.method != 'POST':
 		#Initial request; prefil form with current entry
 		update_form = ProfileUpdateForm(instance=profile)
@@ -94,34 +107,126 @@ def update_account(request, profile_id):
 	return render(request, 'dating_app/update.html', context)
 
 
-"""Checks to see if the current user is also the profile owner, not working though"""
-#def check_profile_owner(user):
- 
-    # if owner != user:
-       # raise Http404 
+
+#matching
+def mingle(request):
+	
+
+
+	try:
+	 	profile = (Profile.objects.exclude(id=request.user.id).exclude(uservote__voter=request.user).order_by('?')[0])
+	except IndexError:
+		profile = None
+		print(Profile.username)
+	try:
+		
+		description = request.user.description
+	except Profile.DoesNotExist:
+		create = Profile.objects.get_or_create(request.user)
+		return redirect('profile')
+
+	match = request.user.matches.all()
+	context = dict(profile = profile, match = match)	
+	return render(request, 'dating_app/mingle.html', context)
 
 
 
-"""
-	if request.method == 'POST':
-		#Display blank regisration form. 
-		user_form = UserForm(request.POST, instance=request.user)
-		profile_form = ProfileForm(request.POST, instance=request.user.profile)
-		if user_form.is_valid() and profile_form.is_valid():
-			user_form.save()
-			profile_form.save()
-			messages.success(request, _('Yourprofile was succesfuly created'))
-			return HttpResponseRedirect(reverse('dating_app:home'))
-		else:
-			messages.error(request,_('please correct'))
-	else:
-		#Process completed form.
-		user_form = UserForm(instance=request.user)
-		profile_form = ProfileForm(instance=request.user.profile)
+@login_required
+def nice(request, profile_id):
 
-	context = {'user_form': user_form, 'registration_form' : registration_form}
+	return create_vote(request, profile_id, True)
+
+@login_required
+def nope(request, profile_id):
+	return create_vote(request, profile_id, False)
 
 
-	return render(request, 'dating_app/register.html', context)
 
-"""
+
+
+def create_vote(request, profile_id, vote):
+    profile = get_object_or_404(Profile, pk=profile_id)
+
+    
+    UserVote.objects.create(
+        user=profile,
+        voter=request.user,
+        vote=vote
+    )
+    other = UserVote.objects.filter(
+        voter=profile,
+        user=request.user,
+        vote=True
+    )
+    if vote and other.exists():
+        profile.matches.add(request.user)
+        request.user.matches.add(profile)
+    return redirect('dating_app:mingle')
+
+
+
+def view_matches(request,profile_id):
+	match = request.user.matches.all()
+	profile = get_object_or_404(Profile,id=profile_id)
+	
+	context = {'match' : match, 'profile' : profile}
+
+	return render(request, 'dating_app/matches.html', context)
+
+
+
+#form
+def instant_message(request, receiver_id):
+    if request.method == 'POST':
+        form = InstantMessageForm(request.POST)
+        if form.is_valid():
+            form.instance.sender = request.user
+            form.instance.receiver = get_object_or_404(get_user_mode(), pk=receiver_id)
+            form.save()
+            return redirect('dating_app:home')
+    else:
+        form = InstantMessageForm()
+    context = {'form':form}
+    return render(request, 'dating_app/instant_message_form.html',context)
+
+
+
+def message(request, profile_id):
+
+	messages = InstantMessage.objects.filter(Q(sender_id=request.user) | Q(sender_id=profile_id)).\
+	values('sender_id','receiver_id', 'message', 'date', ).\
+	order_by('date',)
+
+	conversations = Conversation.objects.filter(members=request.user)
+
+	context = {'messages' : messages, 'conversations':conversations}
+
+	return render(request, 'dating_app/message.html', context)
+
+
+
+def messages(request,profile_id):
+
+	messages = InstantMessage.objects.filter(Q(sender_id=request.user) | Q(sender_id=profile_id)).\
+	values('sender_id','receiver_id', 'message', 'date', ).\
+	order_by('date',)
+	
+	profile = get_object_or_404(Profile,id=profile_id)
+
+	conversations = Conversation.objects.filter(
+		members=profile_id
+	).annotate(
+		last_message=Max('instantmessage__date')
+	).prefetch_related('members').order_by(
+		'-last_message'
+	)
+
+
+
+
+   
+	return render(request, 'dating_app/messages.html', {'messages': messages,'profile': profile, 'conversations':conversations,})
+
+
+
+

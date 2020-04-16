@@ -1,0 +1,31 @@
+
+
+{% extends "dating_app/base.html" %}
+
+{% load bootstrap4 %}
+
+
+
+{% block content %}
+<br><br><br><br><br><br>
+
+{% for message in messages %}
+    	
+       	{% if message.sender_id == user.id %}
+    	<li class="text-right list-group-item"> {{ message.message }} </li>
+    	{% else %}
+    	<li class="text-left list-group-item"> {{ message.message }} </li>
+
+    	{% endif %}
+  
+       
+       
+{%endfor %}
+        
+    
+    
+        
+  
+
+{% endblock content %}
+

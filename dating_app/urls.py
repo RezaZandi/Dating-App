@@ -25,5 +25,16 @@ urlpatterns = [
 #edit profile
 	path('update_account/<int:profile_id>/', views.update_account, name='update_account'),
 
+#Matching 
+	path('mingle/', views.mingle, name='mingle'),
+	path('view_matches/<int:profile_id>/', views.view_matches, name='view_matches'),
 
+#like or dislike
+	path('nice/<int:profile_id>/', views.nice, name='nice'),
+	path('nope/<int:profile_id>/', views.nope, name='nope'),
+
+
+#messaging
+	path('message/<int:profile_id>/', views.message, name='message'),
+	path('messages/<int:profile_id>/', views.messages, name='messages'),
 ]

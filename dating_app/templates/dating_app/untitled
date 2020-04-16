@@ -1,5 +1,0 @@
-{% extends "dating_app/base.html" %}
-
-{% block content %}
-
-	<form method="post"

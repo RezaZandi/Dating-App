@@ -2,7 +2,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from dating_app.models import Profile
+from dating_app.models import Profile,InstantMessage
 
 
 
@@ -49,5 +49,9 @@ class ProfileUpdateForm(forms.ModelForm):
 			return photo
 			
 
+class InstantMessageForm(forms.ModelForm):
 
+	class Meta:
+		model = InstantMessage
+		fields = ('message',)
 

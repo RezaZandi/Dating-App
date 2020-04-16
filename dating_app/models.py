@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, User
 from dating_project import settings
-
+from django.contrib.auth import get_user_model
 
 
 class ProfileManager(BaseUserManager):
@@ -52,6 +52,10 @@ class ProfileManager(BaseUserManager):
 
 class Profile(AbstractBaseUser):
 
+	class Meta:
+		swappable = 'AUTH_USER_MODEL'
+
+
 	email 						= models.EmailField(verbose_name="email")
 	username					= models.CharField(max_length=30, unique=True)
 	date_joined					= models.DateTimeField(verbose_name='date joined', auto_now_add=True)
@@ -63,7 +67,8 @@ class Profile(AbstractBaseUser):
 	#what I added
 	description 				= models.TextField()
 	photo 						= models.ImageField(upload_to='profile_photo',blank=False, height_field=None, width_field=None, max_length=100)
-	#owner 						= models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) (not working, for tracking owner of profile)
+	matches 					= models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='+', blank=True)
+			
 
 
 	USERNAME_FIELD = 'username'
@@ -86,6 +91,32 @@ class Profile(AbstractBaseUser):
 
 
 
+class UserVote(models.Model):
+	
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	voter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='given_vote', on_delete=models.CASCADE)
+	vote = models.BooleanField(default=False)
+
+	class Meta:
+		unique_together = (('user', 'voter'))
+
+
+class Conversation(models.Model):
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL)
+
+    
+    
+
+class InstantMessage(models.Model):
+
+	sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name= 'senderr',on_delete=models.CASCADE )
+	receiver = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+	message = models.TextField()
+	date = models.DateTimeField(auto_now_add=True)
+
+
+	def __unicode__(self):
+		return self.message
 
 
 
