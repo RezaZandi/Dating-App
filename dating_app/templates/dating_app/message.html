@@ -11,10 +11,10 @@
 
 {% for message in messages %}
     	
-       	{% if message.sender_id == user.id %}
-    	<li class="text-right list-group-item"> {{ message.message }} </li>
+       	{% if message.sender_id == request.user.id %}
+    	<li class="text-right list-group-item"> {{ message.message }}<br>{{ message.date }} </li>
     	{% else %}
-    	<li class="text-left list-group-item"> {{ message.message }} </li>
+    	<li class="text-left list-group-item"> {{ message.message }}<br>{{ message.date }} </li>
 
     	{% endif %}
   

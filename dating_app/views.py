@@ -193,13 +193,15 @@ def instant_message(request, receiver_id):
 
 def message(request, profile_id):
 
-	messages = InstantMessage.objects.filter(Q(sender_id=request.user) | Q(sender_id=profile_id)).\
+	messages = InstantMessage.objects.filter(Q(receiver_id__members = request.user, sender_id = profile_id) | Q(receiver_id__members = profile_id, sender_id = request.user)).\
 	values('sender_id','receiver_id', 'message', 'date', ).\
 	order_by('date',)
 
-	conversations = Conversation.objects.filter(members=request.user)
 
-	context = {'messages' : messages, 'conversations':conversations}
+
+	
+
+	context = {'messages' : messages, }
 
 	return render(request, 'dating_app/message.html', context)
 
@@ -214,7 +216,7 @@ def messages(request,profile_id):
 	profile = get_object_or_404(Profile,id=profile_id)
 
 	conversations = Conversation.objects.filter(
-		members=profile_id
+		members=request.user
 	).annotate(
 		last_message=Max('instantmessage__date')
 	).prefetch_related('members').order_by(

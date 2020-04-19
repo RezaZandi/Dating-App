@@ -1,3 +1,38 @@
 from django.test import TestCase
 
-# Create your tests here.
+from .models import Profile,InstantMessage, Conversation
+
+
+
+
+class InstantMessageTestCase(TestCase):
+	
+
+
+
+	def test_messages_find_messages_exclusive_to_profile(self):
+
+
+		sending_user = Profile.objects.create(username="sender", photo="l", description="s", email="jfklhfh@yahoo.com")
+		receiving_user = Profile.objects.create(username="recepient", photo="l", description="s", email="jjjfklhfh@yahoo.com")
+		unrelated_user = Profile.objects.create(username="unrelated_user", photo="l", description="s", email="jjjjjfklhfh@yahoo.com")
+
+
+		relevant_conversation= Conversation.objects.create()
+		relevant_conversation.members.add(sending_user,receiving_user)
+
+		unrelevant_conversation = Conversation.objects.create()
+		unrelevant_conversation.members.add(sending_user,unrelated_user)
+
+
+		relevant_message = InstantMessage.objects.create(sender=sending_user, receiver= relevant_conversation, message= 'sending message',)
+		unrelevant_message = InstantMessage.objects.create(sender=sending_user, receiver= unrelevant_conversation, message= 'sending to unrelated user',)
+
+
+
+		exclusive_message = InstantMessage.find_messages_exclusive_to_profile(sender=sending_user, receiver= receiving_user)
+
+
+		self.assertEqual(relevant_message, exclusive_message)
+
+
