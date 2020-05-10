@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager, User
 from dating_project import settings
 from django.contrib.auth import get_user_model
+import datetime
+from django.utils import timezone
+
 
 
 class ProfileManager(BaseUserManager):
@@ -89,6 +92,10 @@ class Profile(AbstractBaseUser):
 	def has_module_perms(self,app_label):
 		return True
 
+		
+
+class Conversation(models.Model):
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL)
 
 
 class UserVote(models.Model):
@@ -101,22 +108,39 @@ class UserVote(models.Model):
 		unique_together = (('user', 'voter'))
 
 
-class Conversation(models.Model):
-    members = models.ManyToManyField(settings.AUTH_USER_MODEL)
+
 
     
     
 
 class InstantMessage(models.Model):
 
-	sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name= 'senderr',on_delete=models.CASCADE )
-	receiver = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+	
+	sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name= 'sender',on_delete=models.CASCADE )
+	receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name= 'receiver',on_delete=models.CASCADE )
+	conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
 	message = models.TextField()
-	date = models.DateTimeField(auto_now_add=True)
+	date = models.DateTimeField(verbose_name="Data creation",default=timezone.now(), null=False)
+	viewed = models.BooleanField(default=False, db_index=True)
 
 
 	def __unicode__(self):
 		return self.message
+
+	#tests to see if messages are exclusive between sender, receiver (won't work with new model)
+	@classmethod
+	def find_messages_exclusive_to_profile(cls,sender,receiver):
+		#members = receiver AND sender, not receiver or sender 
+		exclusive_conversations = Conversation.objects.filter(members= receiver ).filter(members= sender)
+
+
+		exclusive_messages = InstantMessage.objects.filter(conversation__in=exclusive_conversations)
+
+		return exclusive_messages
+
+
+
+
 
 
 

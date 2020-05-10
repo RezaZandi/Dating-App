@@ -9,17 +9,20 @@
 <title>Your Matches</title>
 
 
-<br><br>
+
 <div class="container">
 	
-	<p>Username: {{ profile }}</p>
+
 	<h5>Your Matches:</h5>
 	{% for item in match %}
 		<br>
 		<p>Username: <br>{{ item.username}}</p>
 		<img src="{{  item.photo.url  }}" width="300">
 		<p>Bio: <br>{{ item.description }}</p>
-		<br>
+
+
+		<a href="{% url 'dating_app:message' item.id %}">Start messaging now!</a>
+		<br><br>
 	{% endfor %}
 
 	

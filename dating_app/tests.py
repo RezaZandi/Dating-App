@@ -26,13 +26,21 @@ class InstantMessageTestCase(TestCase):
 
 
 		relevant_message = InstantMessage.objects.create(sender=sending_user, receiver= relevant_conversation, message= 'sending message',)
+		relevant_message_opposite = InstantMessage.objects.create(sender=receiving_user, receiver=relevant_conversation, message= 'receiver is sending the message' )
+
 		unrelevant_message = InstantMessage.objects.create(sender=sending_user, receiver= unrelevant_conversation, message= 'sending to unrelated user',)
 
 
 
-		exclusive_message = InstantMessage.find_messages_exclusive_to_profile(sender=sending_user, receiver= receiving_user)
+		exclusive_messages = InstantMessage.find_messages_exclusive_to_profile(sender=sending_user, receiver= receiving_user)
+
+		self.assertEqual(relevant_message, exclusive_messages[0])
+
+		self.assertEqual(relevant_message_opposite, exclusive_messages[1])
 
 
-		self.assertEqual(relevant_message, exclusive_message)
+		
+
+		
 
 

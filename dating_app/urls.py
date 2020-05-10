@@ -35,6 +35,10 @@ urlpatterns = [
 
 
 #messaging
+	#message form
 	path('message/<int:profile_id>/', views.message, name='message'),
+	#displays messages in a single conversation
 	path('messages/<int:profile_id>/', views.messages, name='messages'),
+	#displays active conversations
+	path('conversations/<int:profile_id>/', views.conversations, name='conversations'),
 ]

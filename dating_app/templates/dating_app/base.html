@@ -1,5 +1,13 @@
 
 {% load bootstrap4 %}
+{% load static %}
+
+
+
+{% load unread_messages_counter %}
+
+
+
 
 
 <!-- Navbar is located in this file -->
@@ -12,45 +20,95 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	{% block head %}
-	<title>Basee</title>
+	<title>Base</title>
 	{% endblock %}
+	<link rel="stylesheet"  href="{% static  'css/notification.css' %}" type="text/css" class = "notification"/>
+
+	<style>
+
+    .my-container {
+        border:1px solid red;
+    }
+
+	</style>
 </head>
 <body>
+	<!--
+	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+      <a class="my-0 mr-md-auto font-weight-large  text-dark" class= 'navbar=brand'  href="{% url 'dating_app:home' %}"><h5 style="color:red"jfkjflkjfklsj>Cupids Corner</h5> </a>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="#">Features</a>
+        <a class="p-2 text-dark" href="#">Enterprise</a>
+        <a class="p-2 text-dark" href="#">Support</a>
+        <a class="p-2 text-dark" href="#">Pricing</a>
+      </nav>
+      <a class="btn btn-outline-primary" href="#">Sign up</a>
+    </div>
+
+	-->
+
+  
+ 
 	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-		
+	 <div class = 'nav-wrapper'>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-
 		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item active">
-					<a class="nav-link" href="{% url 'dating_app:home' %}">Home <span class="sr-only">(current)</span></a>
+					<a class="nav-link" href="{% url 'dating_app:home' %}">Cupids Corner <span class="sr-only">(current)</span></a>
 				</li>
 				
 				
 				
 			</ul>
-			<!-- Below is login/registration links and the logic-->
+		
 			{% if user.is_authenticated %}
-				Hello, {{  user.username  }}
-				<ul class="mylinks">
-				  <div>
-					<li><a href="{% url 'dating_app:profile' user.id %}">My Profile</a></li>
-					<li><a href="{% url 'dating_app:logout' %}">log out</a></li>
-				  <div>
-				</ul>
+				
+
+				{% unread_messages request.user as user_unread_messages %}
+				{% if user_unread_messages > 0 %}
+			
+					<li>
+						<a ref = 'stylesheet'   href="{% url 'dating_app:conversations' user.id %}" type="text/css" 	class="notification"> 
+							<span>Inbox</span>
+		    				<span class="badge">{% unread_messages request.user %}</span>
+		    			</a>
+					</li>
+
+				{% else %}
+					<li>
+						<a ref = 'stylesheet'   href="{% url 'dating_app:conversations' user.id %}">	
+							<span>Inbox</span>
+		    			</a>
+					</li>
+
+				{% endif %}
+
+				
+				  
+				
+				  
+			
 				<li class="nav-item">
 					<a class="nav-link" href="{% url 'dating_app:view_matches' user.id %}">Matches</a>
 				</li>
 				
 				<li class="nav-item">
-					<a class="nav-link" href="{% url 'dating_app:messages' user.id %}">Check Messages</a>
-				</li>
-				
-				<li class="nav-item">
 					<a class="nav-link" href="{% url 'dating_app:mingle' %}">Mingle</a>
 				</li>
+
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'dating_app:profile' user.id %}">My Profile</a>
+				</li>
+
+				<li class="nav-item">
+					<a class="nav-link" href="{% url 'dating_app:logout' %}">log out</a>
+				</li>
+				
+
+				
 				
 				
 				
@@ -62,9 +120,9 @@
 			  </div>
 			{% endif %}
 		</div>
+	 <div>
 	</nav>
-</body>
-</html>
+	
 <br><br>
 
 <!-- HEADER AREA END -->
@@ -79,7 +137,7 @@
 
 <footer class="container">
       
-    </footer>
+</footer>
 
     <!-- Bootstrap core JavaScript
       ================================================== -->
@@ -88,8 +146,9 @@
       <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
       <script src="../../assets/js/vendor/popper.min.js"></script>
       <script src="../../dist/js/bootstrap.min.js"></script>
-    </body>
-    </html>
+    
+</body>
+</html>
    
 
 

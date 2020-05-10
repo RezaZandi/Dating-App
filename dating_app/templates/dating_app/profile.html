@@ -8,11 +8,13 @@
 <div class="container">
 	
 	<p>Username: {{ profile }}</p>
-	<p>Profile: {{ profile.id }}</p>
+	
 	<img src="{{  profile.photo.url  }}" width="300">
 	<br><br>
 	<p>About me: {{ profile.description }}</p>
 	<br>
+
+
 	
 	{% if user.id == profile.id %}
 		<p><a href="{% url 'dating_app:update_account' profile.id %}">edit profile</a></p>

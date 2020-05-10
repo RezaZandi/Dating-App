@@ -1,4 +1,5 @@
 
+
 {% extends "dating_app/base.html" %}
 
 {% load bootstrap4 %}
@@ -8,16 +9,21 @@
 {% block content %}
 <br><br><br><br><br><br>
 
+<a href="{% url 'dating_app:message' other_user.id %}">Start messaging!</a>
 
-{% for conversation in conversations%}
-    <li class="text-right list-group-item">
-        {% for member in conversation.members.all %}{% if member != user %}
-            {{ member.username }}
-            <a href="{% url 'dating_app:message' conversation.pk %}">Start messaging </a>
-            <br><br>
-        {% endif %}{% endfor %}
+{% for message in messages %}
+
+	
+    	
+       	{% if message.sender_id == request.user.id %}
+    	<li class="text-right list-group-item"> {{ message.message }}<br>{{ message.date }} </li>
+    	{% elif message.sender_id == other_user.id %}
+    	<li class="text-left list-group-item"> {{ message.message }}<br>{{ message.date }} </li>
+
+    	{% endif %}
+  
+    
        
-    </li>
 {%endfor %}
         
     

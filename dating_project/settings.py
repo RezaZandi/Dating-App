@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = '/login/'
+
 
 #For Custom Model 
 AUTH_USER_MODEL = 'dating_app.Profile'
@@ -122,6 +124,7 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
+
 USE_I18N = True
 
 USE_L10N = True
@@ -133,6 +136,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIR = [
+"/DatingAppCustom/dating_app/static",
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'dating_app/media')

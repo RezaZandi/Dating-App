@@ -1,0 +1,30 @@
+
+{% extends "dating_app/base.html" %}
+
+{% load bootstrap4 %}
+
+
+
+{% block content %}
+<br><br><br><br><br><br>
+
+<h1> Active Conversations </h1>
+
+{% for conversation in conversations%}
+    <li class="text-right list-group-item">
+        {% for member in conversation.members.all %}{% if member != user %}
+            {{ member.username }}
+            <a href="{% url 'dating_app:messages' member.pk %}">Start messaging </a>
+            <br><br>
+        {% endif %}{% endfor %}
+       
+    </li>
+{%endfor %}
+        
+    
+    
+        
+  
+
+{% endblock content %}
+

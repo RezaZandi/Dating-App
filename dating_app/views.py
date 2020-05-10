@@ -5,8 +5,8 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib.auth import login, logout, authenticate
-from dating_app.forms import RegistrationForm,ProfileUpdateForm, InstantMessageForm
-from .models import Profile, UserVote, InstantMessage,Conversation
+from dating_app.forms import RegistrationForm,ProfileUpdateForm, MessageForm
+from .models import Profile, UserVote, InstantMessage, Conversation
 from django.db import models
 from django.db.models import Q
 from django.db.models import Max
@@ -29,17 +29,17 @@ Profile = get_user_model()
 # Create your views here.
 def home(request):
 
-	context = {'random_profiles': Profile.objects.exclude(id=request.user.id).order_by('?')[:3]}
+	context = {'random_profiles': Profile.objects.exclude(id=request.user.id).order_by('?')[:6]}
 	return render(request, 'dating_app/home.html',context)
 
-
+@login_required
 def profiles(request):
 	"Shows a list of profiles that have been created"
 	profiles = Profile.objects.order_by('date_joined')
 	context = {'profiles' : profiles}
 	return render(request, 'dating_app/profiles.html',context)
 
-	
+@login_required
 def profile(request, profile_id):
 	"""show a single profile"""
 	profile = get_object_or_404(Profile,id=profile_id)
@@ -50,7 +50,7 @@ def profile(request, profile_id):
 
 # Below is related to users
 
-
+@login_required
 def logout_view(request):
 	"""Log out the user """
 	logout(request)
@@ -58,7 +58,7 @@ def logout_view(request):
 
 
 def register(request, profile_id):
-	user =User.objects.get(pk=profile_id)
+	user = User.objects.get(pk=profile_id)
 	user.profile.bio = 'fjfjfjjf'
 	user.save()
 
@@ -87,7 +87,7 @@ def register(request):
 	return render(request, 'dating_app/register.html', context)
 
 
-
+@login_required
 def update_account(request, profile_id):
 	#Edit an existing profile 
 	profile = get_object_or_404(Profile,id=profile_id)
@@ -109,6 +109,7 @@ def update_account(request, profile_id):
 
 
 #matching
+@login_required
 def mingle(request):
 	
 
@@ -143,7 +144,7 @@ def nope(request, profile_id):
 
 
 
-
+@login_required
 def create_vote(request, profile_id, vote):
     profile = get_object_or_404(Profile, pk=profile_id)
 
@@ -161,62 +162,57 @@ def create_vote(request, profile_id, vote):
     if vote and other.exists():
         profile.matches.add(request.user)
         request.user.matches.add(profile)
+        return render(request, 'dating_app/match.html', dict(
+				match=profile,
+			))
     return redirect('dating_app:mingle')
 
 
-
+@login_required
 def view_matches(request,profile_id):
 	match = request.user.matches.all()
 	profile = get_object_or_404(Profile,id=profile_id)
+	print(profile)
 	
 	context = {'match' : match, 'profile' : profile}
 
 	return render(request, 'dating_app/matches.html', context)
 
 
-
-#form
-def instant_message(request, receiver_id):
-    if request.method == 'POST':
-        form = InstantMessageForm(request.POST)
-        if form.is_valid():
-            form.instance.sender = request.user
-            form.instance.receiver = get_object_or_404(get_user_mode(), pk=receiver_id)
-            form.save()
-            return redirect('dating_app:home')
-    else:
-        form = InstantMessageForm()
-    context = {'form':form}
-    return render(request, 'dating_app/instant_message_form.html',context)
-
-
-
-def message(request, profile_id):
-
-	messages = InstantMessage.objects.filter(Q(receiver_id__members = request.user, sender_id = profile_id) | Q(receiver_id__members = profile_id, sender_id = request.user)).\
-	values('sender_id','receiver_id', 'message', 'date', ).\
-	order_by('date',)
-
-
-
-	
-
-	context = {'messages' : messages, }
-
-	return render(request, 'dating_app/message.html', context)
-
-
-
+@login_required
 def messages(request,profile_id):
 
-	messages = InstantMessage.objects.filter(Q(sender_id=request.user) | Q(sender_id=profile_id)).\
-	values('sender_id','receiver_id', 'message', 'date', ).\
-	order_by('date',)
+	other_user = get_object_or_404(Profile,id=profile_id)
+
+	if profile == request.user:
+		raise Http404
 	
-	profile = get_object_or_404(Profile,id=profile_id)
+	exclusive_conversations = Conversation.objects.filter(members= request.user ).filter(members= other_user)
+	messages = InstantMessage.objects.filter(conversation__in=exclusive_conversations)
+
+
+
+
+	for message in messages:
+		if message.sender != request.user:
+			
+			message.viewed=True
+
+			message.save()
+
+	context = {'messages' : messages, 'other_user' : other_user}
+
+	return render(request, 'dating_app/messages.html', context)
+
+
+
+def conversations(request,profile_id):
+
+	
+
 
 	conversations = Conversation.objects.filter(
-		members=request.user
+		members=profile_id
 	).annotate(
 		last_message=Max('instantmessage__date')
 	).prefetch_related('members').order_by(
@@ -224,10 +220,34 @@ def messages(request,profile_id):
 	)
 
 
-
-
    
-	return render(request, 'dating_app/messages.html', {'messages': messages,'profile': profile, 'conversations':conversations,})
+	return render(request, 'dating_app/conversations.html', {'conversations':conversations,})
+
+
+
+#newform for message
+def message (request, profile_id):
+
+	if request.method == 'POST':
+
+		form = MessageForm(request.POST)
+		if form.is_valid():
+			form.save()
+			
+		
+			return redirect('dating_app:messages', profile_id)
+	else:
+		#get or creates a convo object
+		conversation, created = Conversation.objects.filter(members = request.user).filter(members= profile_id).get_or_create()
+		#adds the two users in, since it's a many to many field field 
+		conversation.members.add(request.user, profile_id)
+	
+		other_user = conversation.members.filter(id=profile_id).get()
+		
+		form = MessageForm({'sender': request.user, 'receiver':profile_id, 'conversation': conversation})
+		
+		context = {'form' : form, 'other_user': other_user }
+		return render(request, 'dating_app/message.html', context)
 
 
 

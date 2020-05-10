@@ -1,13 +1,15 @@
 {% extends "dating_app/base.html" %}
+{% load bootstrap4 %}
 
 {% block content %}
-
-<h1>Register</h1>
-
+{%block head %}
+<h1>Register to fall in love today!</h1>
+{% endblock %}
 	
-	<form method="post" action="{% url 'dating_app:register' %}" enctype="multipart/form-data">
+	<form method="post" action="{% url 'dating_app:register' %}" enctype="multipart/form-data" class= "form">
+		{% bootstrap_form registration_form%}
 		{% csrf_token %}
-		{% for field in registration_form %}
+		{% for field in bootstrap_form %}
 			<p>
 				{{field.label_tag}}
 				{{field}}

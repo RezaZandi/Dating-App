@@ -49,9 +49,12 @@ class ProfileUpdateForm(forms.ModelForm):
 			return photo
 			
 
-class InstantMessageForm(forms.ModelForm):
+class MessageForm(forms.ModelForm):
 
 	class Meta:
 		model = InstantMessage
-		fields = ('message',)
+		fields = ('sender','conversation','message','receiver')
+		widgets = {'sender': forms.HiddenInput(), 'conversation': forms.HiddenInput(), 'receiver': forms.HiddenInput()}
+		
+
 
