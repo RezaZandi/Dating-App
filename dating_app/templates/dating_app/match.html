@@ -2,6 +2,11 @@
 {% load static %}
 {% block content %}
 
+<style>
+.col-4 {
+    display: inline-block;
+    }
+</style>
 
 
 
@@ -17,7 +22,7 @@
             <div class="col-lg-4">
                 
                  <img src="{% static 'images/matching_cupid.png' %}" width= "300" height= "300" object-fit = "cover" >
-                </div>
+                
             <div class="col-lg-4">
                
             	 <img src="{{ match.photo.url }}" width= "300" height= "300" object-fit = "cover" >
