@@ -1,0 +1,42 @@
+{% extends "dating_app/base.html" %}
+{% load static %}
+
+{% block styles %}
+<style>
+.col-4 {
+    display: inline-block;
+    }
+
+.container{
+    background-color: #FFFFFF;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container ">
+	<h2>It's a match!</h2>
+    <div class = "row">
+        
+            <div class="col-lg-4">
+                
+                 <img src="{{ user.photo.url }}" width= "300" height= "300" object-fit = "cover" >
+                
+           	</div>
+            <div class="col-lg-4">
+                
+                 <img src="{% static 'images/matching_cupid.png' %}" width= "300" height= "300" object-fit = "cover" >
+            </div>
+            <div class="col-lg-4">
+               
+            	 <img src="{{ match.photo.url }}" width= "300" height= "300" object-fit = "cover" >
+                
+            </div>
+        
+    </div>
+    <p>You and {{ match.username }} like each other!</p>
+    <p><a href="{% url 'dating_app:messages' user.id %}">Start messaging </a></p>
+    <br>
+    <p><a href="{% url 'dating_app:mingle' %}">Keep mingling!</a></p>
+</div>
+{% endblock %}

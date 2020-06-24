@@ -1,0 +1,30 @@
+{% extends "dating_app/base.html" %}
+
+{% load bootstrap4 %}
+
+
+{% block content %}
+
+
+<br>
+<h1 class="text-center" style="color:#f5387ae6">Login into your account</h1>
+
+
+
+<br>
+
+	<form method="post" style="width:700px;margin:auto" action="{% url 'dating_app:login' %}" class="form">
+		{% csrf_token %}
+		{% bootstrap_form form %}
+
+		{% buttons %}
+			<button name="submit">login</button>
+		{% endbuttons %}
+		
+		<input type="hidden" name="next"
+			value="{% url 'dating_app:home' %}" />
+	</form>
+
+{% endblock content %}
+
+

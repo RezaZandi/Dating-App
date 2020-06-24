@@ -1,0 +1,80 @@
+{% extends "dating_app/base.html" %}
+{% load bootstrap4 %}
+
+
+{% block content %}
+
+
+<br>
+<h1 class="text-center"  style="color:#f5387ae6">Register to fall in love today!</h1>
+	
+	<form method="post"  style="width:700px;margin:auto"  action="{% url 'dating_app:register' %}" enctype="multipart/form-data" class= "form" >
+
+	
+
+		<div class="is-valid">
+		{% bootstrap_form registration_form%}
+		</div>
+		{% csrf_token %}
+		{% for field in bootstrap_form %}
+
+		 
+			<p>
+
+				
+				{{field.label_tag}}
+				{{field}}
+			 	
+				{% if field.help_text %}
+					<small style="color:grey;">{{field.help_text}}</small>
+					
+				{% endif %}
+
+				{% for error in field.errors %}
+					<p style="color: red;">{{error}}"</p>
+				{% endfor %}
+
+			</p>
+		 
+
+		{% endfor %}
+		<div class="form-check">
+			<input type="checkbox" id="accept-terms" class="form-check-input">
+			<label for="accept-terms" class="form-check-label">Accept Terms &amp; Conditions</label>
+		</div>
+		<div>
+			<br>
+			<button type="submit">Register</button>
+		</div>
+	</form>
+
+
+{% block javascript %}
+
+	<script>
+		
+		$("#id_username").change(function () {
+      	
+      		var username = $(this).val();
+
+	    	$.ajax({
+	        url: '/ajax/check_if_username_exists_view/',
+	        data: {
+	          'username': username
+	        },
+	        dataType: 'json',
+	        success: function (data) {
+	          if (data.is_taken) {
+	            alert("A user with this username already exists.");
+	          }
+	        }
+	      });
+
+	    });
+
+	</script>
+
+{% endblock %}
+
+
+{% endblock content %}

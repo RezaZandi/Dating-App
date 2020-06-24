@@ -1,0 +1,31 @@
+{% extends "dating_app/base.html" %}
+
+{% load bootstrap4 %}
+
+
+{% block content %}
+
+<br>
+<title>Your Matches</title>
+
+
+<br><br>
+
+	
+	
+	<h5>Your Matches:</h5>
+	<a href="{% url 'dating_app:instant_message' user.id %}">Chat</a>
+	{% for item in match %}
+		<br>
+		<p>Username: <br>{{ item.username}}</p>
+		<img src="{{  item.photo.url  }}" width="300">
+		<p>Bio: <br>{{ item.description }}</p>
+		<br>
+
+		
+	{% endfor %}
+	
+
+
+
+{% endblock content %}

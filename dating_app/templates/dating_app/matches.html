@@ -1,0 +1,71 @@
+{% extends "dating_app/base.html" %}
+
+
+
+<!DOCTYPE html>
+{% block head %}
+<head>
+	
+
+
+</head>
+
+{% endblock %}
+
+{% block content %}
+
+<br>
+<title>Your Matches</title>
+
+
+
+<div class="container">
+	
+
+	<h5 text-align:center;>Your Matches:</h5>
+	<br />
+	{% for item in match %}
+		<div class="container">
+    	 <div class="row">
+          <div class="card">
+            <div class="card-header">
+                 <h4 style="color:#CB2603  ">{{ item.username }} </h4>
+            </div>
+            <div class="card-body">
+                <div class="col-lg-4 col-12 col-md-6 col-xl-4">
+                    <img alt="User Pic" src="{{  item.photo.url   }}" width="650" id="profile-image1"
+                    class="rounded-circle img-fluid">
+                </div>
+                
+                   <br>
+                    <ul class="container details">
+                        	<h3>About me</h3>
+                        <p><span style="width:50px;margin:50px"></span>{{ item.description }}</p>
+                    </ul>
+                    <hr>	<a href="{% url 'dating_app:message' item.id %}">Start messaging {{item.username}} now!</a>
+                </div>
+          
+        </div>
+    </div>
+</div>
+<br />
+
+	{% endfor %}
+
+	
+</div>
+
+
+{% endblock content %}
+
+
+<!--
+<br>
+		<p>Username: <br>{{ item.username}}</p>
+		<img src="{{  item.photo.url  }}" width="300">
+		<p>Bio: <br>{{ item.description }}</p>
+
+
+		<a href="{% url 'dating_app:message' item.id %}">Start messaging now!</a>
+		<br><br>
+-->

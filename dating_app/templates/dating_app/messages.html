@@ -1,0 +1,104 @@
+{% extends "dating_app/base.html" %}
+
+{% load bootstrap4 %}
+
+{% load static %}
+
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+{% endblock %}
+
+{% block styles %}
+body {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 0 30px;
+}
+
+.container {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin-left:  auto ;
+  margin-top: 10px;
+}
+
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.container img {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.container img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+}
+{% endblock %}
+
+{% block content %}
+
+	
+
+	<br>
+    <h1 class="text-center" style="color:#f5387ae6"   >Chat Messages</h1>
+    <br>
+    <div style="text-align:center"    >    
+	  <a style="color:#9E0037" href="{% url 'dating_app:message' other_user.id %}">Send a message to {{other_user.username}}</a>
+	  <!-- more links here -->
+	</div>
+	<br>
+    {% for message in messages %}
+
+        {% if message.sender_id == request.user.id %}
+        <div class="container">
+            <img src="{{  request.user.photo.url  }}" alt="Avatar" style="width:100%;">
+            <p >{{message.message }}</p>
+            <span class="time-right">{{ message.date }}</span>
+
+        </div>
+
+        {% elif message.sender_id == other_user.id %}
+        <div class="container">
+            <img src="{{ other_user.photo.url }}" alt="Avatar" class="right" style="width:100%;">
+            <p>{{ message.message }}</p>
+            <span class="time-left">{{ message.date }}</span>
+        </div>
+
+        {% endif %}
+            <!--
+            {% if message.sender_id == request.user.id %}
+            <li class="text-right list-group-item"> {{ message.message }}<br>{{ message.date }} </li>
+            {% elif message.sender_id == other_user.id %}
+            <li class="text-left list-group-item"> {{ message.message }}<br>{{ message.date }} </li>
+
+            {% endif %}
+            -->
+
+    {%endfor %}
+{% endblock content %} 

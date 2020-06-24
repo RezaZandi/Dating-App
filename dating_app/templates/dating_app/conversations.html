@@ -1,0 +1,33 @@
+
+{% extends "dating_app/base.html" %}
+
+{% load bootstrap4 %}
+
+
+
+{% block content %}
+<br>
+
+<h1 class="text-center"  style="color:#f5387ae6"> Active Conversations </h1>
+<br>
+
+
+{% for conversation in conversations%}
+    <li class="text-right list-group-item">
+        {% for member in conversation.members.all %}{% if member != user %}
+          <div style="text-align:center">
+            <a  style="color:#9E0037" href="{% url 'dating_app:messages' member.pk %}">{{ member.username }} </a>
+            <br><br>
+          </div>
+        {% endif %}{% endfor %}
+       
+    </li>
+{%endfor %}
+        
+    
+    
+        
+  
+
+{% endblock content %}
+

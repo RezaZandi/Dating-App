@@ -1,0 +1,133 @@
+{% extends "dating_app/base.html" %}
+
+
+{% block styles %}
+
+body{
+    font-family: 'Open Sans', sans-serif;
+}
+*:hover{
+    -webkit-transition: all 1s ease;
+    transition: all 1s ease;
+}
+section{
+    float:left;
+    width:100%;
+    background: #fff;  /* fallback for old browsers */
+    padding:30px 0;
+}
+h1{float:left; width:100%; color:#232323; margin-bottom:30px; font-size: 14px;}
+h1 span{font-family: 'Libre Baskerville', serif; display:block; font-size:45px; text-transform:none; margin-bottom:20px; margin-top:30px; font-weight:700}
+h1 a{color:#131313; font-weight:bold;}
+ .col-md-3 { margin:0 auto;}
+/*Profile Card 5*/
+.profile-card-5{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}
+.profile-card-5 .btn{
+    border-radius:2px;
+    text-transform:uppercase;
+    font-size:12px;
+    padding:7px 20px;
+}
+.profile-card-5 .card-img-block {
+    width: 91%;
+    margin: 0 auto;
+    position: relative;
+    top: -20px;
+
+}
+.profile-card-5 .card-img-block img{
+    border-radius:5px;
+    box-shadow:0 0 10px rgba(0,0,0,0.63);
+}
+.profile-card-5 h5{
+    color:#;
+    font-weight:600;
+}
+.profile-card-5 p{
+    font-size:14px;
+    font-weight:300;
+}
+.profile-card-5 .btn-primary{
+    background-color:#58DF36 ;
+    border-color:#58DF36  ;
+    float:right;
+    padding-left:90px;
+
+}
+.profile-card-5 .btn-secondary{
+    background-color:#C10000  ;
+    border-color:#C10000  ;
+    float:left;
+    padding-right:70px;
+}
+
+
+{% endblock %}
+
+
+{% block content %}
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"/>
+{% if profile %}
+<section>
+    <div class="col-md-3 mt-3">
+                <div class="card profile-card-5">
+                    <div class="card-img-block">
+                        <img class="card-img-top" src="{{ profile.photo.url  }}" alt="Card image cap">
+                    </div>
+                    <div class="card-body pt-0">
+                    <h5  class="card-title">{{profile.username}}</h5>
+                    <p class="card-text">{{profile.description}}.</p>
+                    <a href="{% url 'dating_app:nice' profile.id %}" class="btn btn-primary">Like</a>
+                    <a href="{% url 'dating_app:nope' profile.id %}" class="btn btn-secondary">Dislike</a>
+                  </div>
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+</section>
+{% else %}
+        <br><br>
+        <p>Wait for more people to join!</p>
+        <p>Help us get more user. Share this link to your friends! <a href="http://localhost:8000/">http://localhost:8000/</a></p>
+{% endif %}
+
+<br/>
+<!--
+<div class="tindero">
+    {% if profile %}
+        <div class="container content is-child box column is-4 is-offset-4">
+            <img src="{{ profile.photo.url  }}" width="300">
+            <p style="font-size: 25px">{{profile.username}}</p>
+            
+            <b>Bio:</b>
+            <p>{{profile.description}}</p>
+            <div class="columns has-text-centered">
+                <div class="column is-half">
+                    <a href="{% url 'dating_app:nope' profile.id %}" class="button is-danger" style="width: 100%"> Dislike </a>
+                </div>
+                <div class="column">
+                    <a href="{% url 'dating_app:nice' profile.id %}" class="button is-primary" style="width: 100%"> Like </a>
+                </div>
+            </div>
+            
+        </div>
+    {% else %}
+    	<br><br>
+        <p>Wait for more people to join!</p>
+        <p>Help us get more user. Share this link to your friends! <a href="http://localhost:8000/">http://localhost:8000/</a></p>
+  {% endif %}
+{% endblock %}
+
+
+
+
+

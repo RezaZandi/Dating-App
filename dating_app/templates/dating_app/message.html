@@ -1,0 +1,23 @@
+
+{% extends "dating_app/base.html" %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+
+
+
+<form  style="width:700px;margin:auto "method="post" action="{% url 'dating_app:message' other_user.id %}" class="form">
+
+
+		{% csrf_token %}
+		{% bootstrap_form form %}
+
+		{% buttons %}
+			<button name="submit">Send Message</button>
+		{% endbuttons %}
+
+		
+</form>
+
+{% endblock content %}

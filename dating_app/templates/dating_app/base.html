@@ -1,0 +1,182 @@
+{% load bootstrap4 %}
+{% load static %}
+
+{% load unread_messages_counter %}
+
+<!-- Navbar is located in this file -->
+
+
+<!doctype html>
+<html lang="en">
+<head>
+    {% block head %}
+    <title>Base</title>
+    {% endblock %}
+    <!-- Bootstrap CSS -->
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+    
+
+    
+
+    <link rel="stylesheet"  href="{% static 'css/style.css' %}"/>
+    <link rel="stylesheet"  href="{% static  'css/notification.css' %}" type="text/css" class = "notification"/>
+    <style>
+    <!-- Add this tag -->
+    {% block styles %}
+
+    {% endblock %}
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+     <header id="main-header">
+      <nav class="navbar navbar-custom navbar-expand-md">
+      <div class="container-fluid">
+        <a class= 'navbar-brand'  href="{% url 'dating_app:home' %}"><img src="{% static 'images/cupids_corner_logo.jpg' %}"><h5 style="color:red"></h5> </a>
+        <button class= "navbar-toggler" type="button" data-toggle="collapse" 
+        data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div  class="collapse navbar-collapse"  >
+          <ul class ="navbar-nav ml-auto" >
+
+
+            {% if user.is_authenticated %}
+
+
+                {% unread_messages request.user as user_unread_messages %}
+                {% if user_unread_messages > 0 %}
+
+
+                    <li class="nav-item"  >
+                        <a class=  "notification" style="color:brown" href="{% url 'dating_app:conversations' user.id %}" type="text/css" > 
+                        <span>Inbox</span>
+                        <span class="badge">{% unread_messages request.user %}</span>
+                        </a>
+                    </li>
+
+                {% else %}
+
+                    <li class="nav-item">
+
+                        <a style="color:brown"  href="{% url 'dating_app:conversations' user.id %}">    
+                            <span>Inbox</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a style="color:brown"  href="{% url 'dating_app:view_matches' user.id %}">Matches</a>
+                </li>
+
+                <li class="nav-item">
+                    <a style="color:brown"  href="{% url 'dating_app:mingle' %}">Mingle</a>
+                </li>
+
+                <li class="nav-item">
+                    <a style="color:brown" href="{% url 'dating_app:profile' user.id %}">My Profile</a>
+                </li>
+
+                <li class="nav-item">
+                    <a style="color:brown" href="{% url 'dating_app:logout' %}">log out</a>
+                </li>
+            {% else %}
+
+                <li class="nav-item">
+                  <a style="color:brown" href="{% url 'dating_app:login' %}">login</a>
+                </li>
+                <li class="nav-item">
+                  <a style="color:brown" href="{% url 'dating_app:register' %}">register</a>
+                </li>
+
+            {% endif %}
+          </ul>
+        </div>
+    </div>
+
+    </nav>
+ </header>
+<!-- HEADER END -->
+
+
+<!--Below is individual page will html will be rendered -->
+
+{% block content %}
+
+{% endblock %}
+
+<hr class="my-4">
+
+<!--Connect -->
+<div class="container-fluid padding">
+<div class="row text-center padding">
+     <div class="col-12">
+        <h2>Connect</h2>
+     </div>
+     <div class="col-12 social padding">
+        <a href="http://www.facebook.com/"><i class="fab fa-facebook"></i></a>
+        <a href="http://www.twitter.com/"><i class="fab fa-twitter"></i></a>
+        <a href="http://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+        <a href="http://www.google.com/"><i class="fab fa-google-plus-g"></i></a>
+        <a href="http://www.youtube.com/"><i class="fab fa-youtube"></i></a>
+    </div>
+</div>
+</div>
+
+<!-- FOOTER AREA BEGINS BELOW-->
+
+<footer>
+    <div class="container-fluid padding">
+    <div class="row text-center">
+        <div class="col-md-4">
+            <img src="{% static 'images/cupids_corner_logo.jpg' %}">
+            <hr class="light">
+            <p>703-309-9572</p>
+            <p>rezazandirz@gmail.com</p>
+            <p>100 Street Name</p>
+            <p>City, State, 000</p>
+        </div>
+        <div class="col-md-4">
+            <hr class="light">
+            <h5>Our hours</h5>
+            <hr class="light">
+            <p>Monday: 9am-5pm</p>
+            <p>Saturday: 10am-4pm</p>
+            <p>Sunday: closed(like Chick-fil-A)</p>
+        </div>
+        <div class="col-md-4">
+            <hr class="light">
+            <h5>Our satellite offices</h5>
+            <hr class="light">
+            <p>City, State, 00000</p>
+            <p>City, State, 00000</p>
+            <p>City, State, 00000</p>
+        </div>
+        <div class="col-12">
+            <hr class="light-100">
+            <h5>&copy;CupidsCorner.com</h5>
+        </div>
+
+
+</footer>
+
+    <!-- Bootstrap core JavaScript
+      ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+
+      <script src="../../assets/js/vendor/popper.min.js"></script>
+      <script src="../../dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+
+
+
+

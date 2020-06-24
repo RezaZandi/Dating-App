@@ -1,0 +1,69 @@
+{% extends "dating_app/base.html" %}
+
+
+
+{% block head %}
+    <title>Profile</title>
+    
+    
+{% endblock %}
+{% block content %}
+
+<br />
+<div class="container">
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                 <h4 style="color:#CB2603  ">{{profile}}</h4>
+            </div>
+            <div class="card-body">
+                <div class="col-lg-4 col-12 col-md-6 col-xl-4">
+                    <img alt="User Pic" src="{{  profile.photo.url  }}" id="profile-image1"
+                    class="rounded-circle img-fluid">
+                </div>
+                    <br/>
+                    <ul class="container details">
+                         <h3>About me</h3>
+                        <p><span style="width:50px;margin:50px"></span>{{ profile.description }}</p>
+                    </ul>
+
+                    <hr>
+                    {% if user.id == profile.id %}
+                      <p><a style="color:#CB2603" href="{% url 'dating_app:update_account' profile.id %}">edit profile</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+    
+
+
+{% endblock content %}
+<!--
+<br><br>
+<div class="container">
+	
+	<p>Username: {{ profile }}</p>
+	
+	<img src="{{  profile.photo.url  }}" width="300">
+	<br><br>
+	<p>About me: {{ profile.description }}</p>
+	<br>
+
+
+	
+	{% if user.id == profile.id %}
+		<p><a href="{% url 'dating_app:update_account' profile.id %}">edit profile</a></p>
+	{% endif %}
+
+	
+</div>
+
+-->
+

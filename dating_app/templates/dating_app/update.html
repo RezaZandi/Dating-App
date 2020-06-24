@@ -1,0 +1,29 @@
+{% extends "dating_app/base.html" %}
+
+{% block content %}
+<br>
+
+<h1>Update Profile</h1>
+
+	
+	<form action="{% url 'dating_app:update_account' profile.id %}" method='post' enctype="multipart/form-data">
+		{% csrf_token %}
+		{% for field in update_form %}
+			<p>
+				{{field.label_tag}}
+				{{field}}
+
+				{% if field.help_text %}
+					<small style="color:grey;">{{field.help_text}}</small>
+				{% endif %}
+
+				{% for error in field.errors %}
+					<p style="color: red;">{{error}}"</p>
+				{% endfor %}
+			</p>
+		{% endfor %}
+		<button type="submit">Save Changes</button>
+	</form>
+
+
+{% endblock content %}
