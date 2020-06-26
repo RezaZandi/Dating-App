@@ -138,14 +138,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIR = (
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
+STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'dating_app/media/profile_photo')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'dating_app/media')
 
 
 #Settings for django-bootstrap3
