@@ -4,11 +4,12 @@ Django==2.2.3
 django-bootstrap4==1.1.1
 django-storages==1.9.1
 djangorestframework==3.10.2
+gunicorn==20.0.4
 Markdown==3.1.1
 pbr==5.4.5
 Pillow==7.0.0
+psycopg2-binary==2.8.5
 pygame==1.9.6
-psycopg2-binary
 pytz==2019.1
 six==1.14.0
 soupsieve==2.0
@@ -17,4 +18,4 @@ stevedore==1.32.0
 virtualenv==16.6.1
 virtualenv-clone==0.5.4
 virtualenvwrapper==4.8.4
-django-heroku
+whitenoise==5.1.0
