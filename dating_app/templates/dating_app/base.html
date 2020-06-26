@@ -13,6 +13,8 @@
     <title>Base</title>
     {% endblock %}
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -35,8 +37,8 @@
 </head>
 <body>
     <!-- Navigation -->
-     <header id="main-header">
-      <nav class="navbar navbar-custom navbar-expand-md">
+     
+    <nav class="navbar navbar-custom navbar-expand-md">
       <div class="container-fluid">
         <a class= 'navbar-brand'  href="{% url 'dating_app:home' %}"><img src="{% static 'images/cupids_corner_logo.jpg' %}"><h5 style="color:red"></h5> </a>
         <button class= "navbar-toggler" type="button" data-toggle="collapse" 
@@ -101,8 +103,8 @@
         </div>
     </div>
 
-    </nav>
- </header>
+ </nav>
+ 
 <!-- HEADER END -->
 
 
