@@ -1,1 +1,1 @@
-web: gunicorn Dating-App.wsgi --log-file -
+web: gunicorn dating_project.wsgi --log-file -
