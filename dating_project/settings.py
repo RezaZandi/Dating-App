@@ -25,7 +25,7 @@ SECRET_KEY = '(mui%^85te&u)5&@zwo3b^u=em$vgn1fb5k69!o_j$f5gg6d&o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [] #'pacific-refuge-35090.herokuapp.com' (only for heroku)
+ALLOWED_HOSTS = [] #'pacific-refuge-35090.herokuapp.com' (only for heroku). 
 
 LOGIN_URL = '/login/'
 
