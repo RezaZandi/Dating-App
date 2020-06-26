@@ -145,7 +145,7 @@ STATICFILES_DIR = (
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'dating_app/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'dating_app/media/profile_photo')
 
 
 #Settings for django-bootstrap3
