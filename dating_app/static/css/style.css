@@ -1,13 +1,12 @@
 
 
 
-.navbar-nav  li{
+.navbar-nav  li a{
   padding-left:35px;
   padding-right:10px;
   margin-top: -20px;
   margin-bottom: -20px;
   color:yellow;
-  
   width: 100%;
 }
 
