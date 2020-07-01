@@ -25,7 +25,9 @@ SECRET_KEY = '(mui%^85te&u)5&@zwo3b^u=em$vgn1fb5k69!o_j$f5gg6d&o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['cupids-corner.herokuapp.com']  
+ADMINS = (('Reza', 'Rezazandirz@gmail.com'),)
+
+ALLOWED_HOSTS = ['cupids-corner.herokuapp.com']  #'cupids-corner.herokuapp.com'
 
 LOGIN_URL = '/login/'
 
