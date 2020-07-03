@@ -53,7 +53,7 @@ LOGGING = {
 AUTH_USER_MODEL = 'dating_app.Profile'
 
 
-###Application definition
+####Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
