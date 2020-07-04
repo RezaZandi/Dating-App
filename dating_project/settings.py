@@ -154,7 +154,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-### Static files (CSS, JavaScript, Images)
+# Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
@@ -184,7 +184,7 @@ AWS_ACCESS_KEY_ID = 'AKIAIZALHZN4N7QWAJ5Q'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'cupids-corner'
 
-AWS_S3_FILE_OVERWRITE = True
+AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATIC_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
