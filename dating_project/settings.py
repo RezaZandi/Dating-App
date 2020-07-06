@@ -171,7 +171,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-#Settings for django-bootstrap3
+##Settings for django-bootstrap3
 BOOTSTRAP4 = {
     'include_jquery' : True,
 }
