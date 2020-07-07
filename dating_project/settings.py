@@ -119,9 +119,6 @@ DATABASES = {
     }
 }
 
-import dj_database_url
-deb_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(deb_from_env)
 
 
 ## Password validation
