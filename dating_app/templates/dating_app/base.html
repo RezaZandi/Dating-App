@@ -49,13 +49,13 @@
         <div  class="collapse navbar-collapse"  >
           <ul class ="navbar-nav ml-auto" >
 
-
+     
             {% if user.is_authenticated %}
 
-
+                
                 {% unread_messages request.user as user_unread_messages %}
                 {% if user_unread_messages > 0 %}
-
+        
 
                     <li class="nav-item"  >
                         <a class=  "notification" style="color:brown" href="{% url 'dating_app:conversations' user.id %}" type="text/css" > 

@@ -111,16 +111,43 @@ WSGI_APPLICATION = 'dating_project.wsgi.application'
 
 ## Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+# For RDS amazon
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'cupids-corner',
+        'USER': 'rezazandi',
+        'PASSWORD': 'lioncourt',
+        'HOST' : 'cupids-corner.cp5uqhct8bo1.us-east-1.rds.amazonaws.com',
+        'PORT' : '5432'
+    }
+}
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
+#For local postgres
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cupids_corner_local2',
+        'USER': 'postgres',
+        'PASSWORD': 'lioncourt',
+        'HOST' : 'localhost',
+        'PORT' : '5433'
+    }
+
+}
+'''
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-
-
+'''
 ## Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
