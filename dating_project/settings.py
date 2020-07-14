@@ -27,7 +27,7 @@ DEBUG = False
 
 ADMINS = (('Reza', 'Rezazandirz@gmail.com'),)
 
-ALLOWED_HOSTS = ['cupids-corner.herokuapp.com']  #'cupids-corner.herokuapp.com'
+ALLOWED_HOSTS = ['cupids-corner.herokuapp.com']  #'cupids-corner.herokuapp.com'#
 
 LOGIN_URL = '/login/'
 
