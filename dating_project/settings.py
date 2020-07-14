@@ -111,7 +111,7 @@ WSGI_APPLICATION = 'dating_project.wsgi.application'
 
 ## Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-# For RDS amazon
+# For RDS amazon#
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
