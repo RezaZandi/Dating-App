@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = '(mui%^85te&u)5&@zwo3b^u=em$vgn1fb5k69!o_j$f5gg6d&o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -116,7 +116,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'cupids-corner',
         'USER': 'rezazandi',
-        'PASSWORD': '',
+        'PASSWORD': 'lioncourt',
         'HOST' : 'cupids-corner.cp5uqhct8bo1.us-east-1.rds.amazonaws.com',
         'PORT' : '5432'
     }
@@ -133,7 +133,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'cupids_corner_local2',
         'USER': 'postgres',
-        'PASSWORD': '',
+        'PASSWORD': 'lioncourt',
         'HOST' : 'localhost',
         'PORT' : '5433'
     }
@@ -208,8 +208,8 @@ BOOTSTRAP4 = {
 
 #S3 BUCKETS CONFIG
 
-AWS_ACCESS_KEY_ID = ''
-AWS_SECRET_ACCESS_KEY = ''
+AWS_ACCESS_KEY_ID = 'AKIAITB4FND2AJ77GGEA'
+AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'cupids-corner'
 
 AWS_S3_FILE_OVERWRITE = True
