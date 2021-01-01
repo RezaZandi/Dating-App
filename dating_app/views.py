@@ -57,12 +57,13 @@ def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('dating_app:home'))
 
-
+#original register view, not using anymore
+"""
 def register(request, profile_id):
 	user = User.objects.get(pk=profile_id)
 	user.profile.bio = 'fjfjfjjf'
 	user.save()
-
+"""
 
 def register(request):
 	#Register a new user
